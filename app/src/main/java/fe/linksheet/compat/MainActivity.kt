@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     .addCategory(Intent.CATEGORY_BROWSABLE)
                     .setData(intent.data).setComponent(
                         ComponentName(
-                            "fe.linksheet.debug",
+                            "fe.linksheet",
                             "fe.linksheet.activity.BottomSheetActivity"
                         )
                     )
