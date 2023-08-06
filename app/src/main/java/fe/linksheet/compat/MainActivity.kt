@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 
 class MainActivity : ComponentActivity() {
+    private val suffixes = listOf("", ".debug", ".nightly")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,19 +35,17 @@ class MainActivity : ComponentActivity() {
         window.setType(type)
 
         if (intent != null) {
-            startActivity(
-                Intent()
-                    .setAction(Intent.ACTION_VIEW)
-                    .addCategory(Intent.CATEGORY_BROWSABLE)
-                    .setData(intent.data).setComponent(
-                        ComponentName(
-                            "fe.linksheet",
-                            "fe.linksheet.activity.BottomSheetActivity"
-                        )
+            for (suffix in suffixes) {
+                try {
+                    startActivity(Intent()
+                        .setAction(Intent.ACTION_VIEW)
+                        .addCategory(Intent.CATEGORY_BROWSABLE)
+                        .setData(intent.data).setComponent(ComponentName("fe.linksheet$suffix", "fe.linksheet.activity.BottomSheetActivity"))
                     )
-            )
-
-            finish()
+                    finish()
+                } catch (_: Throwable) {
+                }
+            }
         }
     }
 }
