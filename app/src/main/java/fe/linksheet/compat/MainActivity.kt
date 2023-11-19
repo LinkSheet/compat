@@ -5,13 +5,16 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.AndroidCharacter
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 
 class MainActivity : ComponentActivity() {
-    private val suffixes = listOf("", ".debug", ".nightly")
+    private val versions = listOf("", ".pro")
+    private val suffixes = listOf(".debug", ".nightly")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +37,25 @@ class MainActivity : ComponentActivity() {
 
         window.setType(type)
 
+
         if (intent != null) {
-            for (suffix in suffixes) {
-                try {
-                    startActivity(Intent()
-                        .setAction(Intent.ACTION_VIEW)
-                        .addCategory(Intent.CATEGORY_BROWSABLE)
-                        .setData(intent.data).setComponent(ComponentName("fe.linksheet$suffix", "fe.linksheet.activity.BottomSheetActivity"))
-                    )
-                    finish()
-                } catch (_: Throwable) {
+            for (version in versions) {
+                for (suffix in suffixes) {
+                    try {
+                        startActivity(
+                            Intent()
+                                .setAction(Intent.ACTION_VIEW)
+                                .addCategory(Intent.CATEGORY_BROWSABLE)
+                                .setData(intent.data).setComponent(
+                                    ComponentName(
+                                        "fe.linksheet$version$suffix",
+                                        "fe.linksheet.activity.BottomSheetActivity"
+                                    )
+                                )
+                        )
+                        finish()
+                    } catch (_: Throwable) {
+                    }
                 }
             }
         }
